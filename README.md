@@ -1,7 +1,6 @@
 # Análise de Anomalias de Faturamento
 
-Análise da base de retenções de faturamento e dashboard gerencial, feitos como
-case de processo seletivo.
+Análise da base de retenções de faturamento e dashboard gerencial.
 
 A operação tratou **163.811 retenções** em seis meses, com **6,23% fora do prazo**
 de dois dias. O dashboard mostra o diagnóstico, os achados de qualidade de dado e
