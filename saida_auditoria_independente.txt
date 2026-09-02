@@ -1,0 +1,227 @@
+
+==============================================================================
+0. CARGA E INTEGRIDADE DE ENTRADA
+==============================================================================
+Linhas na Base de Dados (bruto)........: 163811
+Colunas................................: ['Documento', 'Anomalia', 'Data da Anomalia', 'Data de Tratamento', 'Tipo de Tratamento', 'Tipo de Liberação', 'Origem', 'Colaborador(a)']
+Nulos por coluna.......................: {'Documento': 0, 'Anomalia': 0, 'Data da Anomalia': 0, 'Data de Tratamento': 0, 'Tipo de Tratamento': 0, 'Tipo de Liberação': 0, 'Origem': 0, 'Colaborador(a)': 0}
+Linhas 100% duplicadas.................: 0
+Tipos de anomalia nas Premissas........: 43
+Chave duplicada nas Premissas..........: 0
+Falhas de parse de data................: 0 / 0
+Janela Data da Anomalia................: 2026-01-06 a 2026-06-30
+Janela Data de Tratamento..............: 2026-01-06 a 2026-08-05
+
+==============================================================================
+1. DIAS DE TRATAMENTO E FLAG DE SLA (limite 2 dias)
+==============================================================================
+Registros com data invertida (dias<0)..: 537 (0.3278%)  [C3]
+  distribuicao dos negativos...........: {-14: 1, -2: 536}
+dias: min=-14 max=120 media=0.4081 mediana=0.0
+DENTRO do SLA (dias<=2)................: 153645 (93.7941%)
+FORA   do SLA (dias> 2)................: 10166 (6.2059%)
+CHECK soma das partes = total..........: 163811 == 163811 -> True
+CHECK percentuais somam 100............: 100.000000
+[sens] corte estrito dias>=2 -> fora...: 17163 (10.4773%)
+[sens] excluindo invertidos (n=163274) -> fora: 10166 (6.2263%)
+[sens] dias UTEIS >2 -> fora do SLA....: 1890 (1.1538%)
+
+Distribuicao de dias corridos (top 15):
+dias
+-14         1
+-2        536
+ 0     132238
+ 1      13873
+ 2       6997
+ 3       5690
+ 4       3458
+ 5        250
+ 6        126
+ 7        212
+ 8         94
+ 9         71
+ 10        63
+ 11        14
+ 12        14
+
+==============================================================================
+2. MERGE COM OS TEMPOS MEDIOS DAS PREMISSAS
+==============================================================================
+Anomalias da base SEM tempo medio......: 0 []
+Premissas nunca usadas na base.........: 11 ['ZCCL<15', 'ZCCOVID19', 'ZCDFLRCPI', 'ZCIMPNEG', 'ZCOSB', 'ZCOSB_OLT', 'ZCSDEMI', 'ZFDJUDVL', 'ZFINCONS', 'ZFOSB', 'ZFOSB_SRTC']
+CHECK linhas antes/depois do merge.....: 163811 -> 163811 -> PRESERVADO
+CHECK tempo medio nulo apos merge......: 0
+Esforco total da operacao..............: 7,347.52 h (26,451,060 s)
+
+==============================================================================
+3. HORAS POR COLABORADOR POR DIA DE TRATAMENTO (limite 7h/dia)
+==============================================================================
+
+--- CENARIO A: todas as linhas (C5) ---
+Pares colaborador-dia..................: 697
+CHECK soma das horas do grupo = total..: 7,347.5167 vs 7,347.5167 -> True
+CHECK soma das linhas do grupo = total.: 163811 vs 163811 -> True
+Dias-colaborador ACIMA de 7h...........: 157 (22.5251% dos pares)
+Horas/dia: media=10.5416 mediana=2.9331 max=612.3069
+Top 10 pares por horas:
+Colaborador(a)    dt_trat      horas     n  estouro
+          JOSE 2026-06-30 612.306944 11470     True
+       ALFREDO 2026-03-13 306.376111  9348     True
+           ANA 2026-05-25 290.531944  8225     True
+       ALFREDO 2026-03-17 272.563056  7827     True
+       ALFREDO 2026-03-16 232.558056  6910     True
+          JOSE 2026-05-29 220.592778  4684     True
+           ANA 2026-02-27 174.873611  4189     True
+           ANA 2026-03-31 159.640833  3410     True
+           ANA 2026-02-19 156.406111  3910     True
+           ANA 2026-02-23 139.273056  2653     True
+Estouros por colaborador:
+                dias  dias_estouro    h_media       h_max  pct_dias_estouro
+Colaborador(a)                                                             
+ANA               90            45  29.825747  290.531944         50.000000
+ALFREDO           90            32  17.254395  306.376111         35.555556
+MARTA             69            31   9.145572   69.030278         44.927536
+JOSE              89            18  13.759791  612.306944         20.224719
+CARLA            107            12   3.382103   27.192778         11.214953
+NAYARA           111            10   3.218193   10.449444          9.009009
+JESSICA          107             5   2.864221   13.659167          4.672897
+ANDREA            34             4   6.737116   63.227778         11.764706
+
+--- CENARIO B (sensibilidade): apenas liberacao MANUAL ---
+Pares colaborador-dia..................: 648
+CHECK soma das horas do grupo = total..: 1,540.5444 vs 1,540.5444 -> True
+CHECK soma das linhas do grupo = total.: 31319 vs 31319 -> True
+Dias-colaborador ACIMA de 7h...........: 31 (4.7840% dos pares)
+Horas/dia: media=2.3774 mediana=1.0438 max=90.8081
+Top 10 pares por horas:
+Colaborador(a)    dt_trat     horas    n  estouro
+           ANA 2026-05-25 90.808056 2047     True
+           ANA 2026-02-19 41.457500  897     True
+           ANA 2026-03-20 40.545556  901     True
+           ANA 2026-05-29 35.219722  753     True
+           ANA 2026-02-27 31.670278  686     True
+           ANA 2026-06-18 30.652500  667     True
+         MARTA 2026-04-30 30.115000  652     True
+           ANA 2026-03-30 29.442778  648     True
+          JOSE 2026-06-12 28.374722  881     True
+          JOSE 2026-03-16 27.086667  846     True
+Estouros por colaborador:
+                dias  dias_estouro   h_media      h_max  pct_dias_estouro
+Colaborador(a)                                                           
+ANA               89            12  5.645200  90.808056         13.483146
+JOSE              71             8  2.451549  28.374722         11.267606
+ALFREDO           85             6  2.368912  17.232778          7.058824
+ANDREA            31             4  3.508468  20.102778         12.903226
+MARTA             62             1  2.261989  30.115000          1.612903
+CARLA            100             0  1.424872   5.127778          0.000000
+JESSICA          102             0  1.114809   4.279167          0.000000
+NAYARA           108             0  1.458338   6.985556          0.000000
+
+==============================================================================
+4a. % FORA DO SLA
+==============================================================================
+% fora do SLA (base completa, dias>2)..: 6.2059%  (10166/163811)
+
+==============================================================================
+4b. MANUAL vs MASSIVO - volume e esforco
+==============================================================================
+                   linhas  pct_volume        horas  pct_horas  h_media_por_linha
+Tipo de Liberação                                                               
+MANUAL              31319   19.118985  1540.544444  20.966872           0.049189
+MASSIVO            132492   80.881015  5806.972222  79.033128           0.043829
+CHECK volume soma total................: 163811 == 163811
+CHECK % volume soma 100................: 100.000000
+CHECK % horas soma 100.................: 100.000000
+CHECK horas somam o total..............: 7,347.5167 vs 7,347.5167
+
+% fora do SLA por tipo de liberacao:
+                     size   sum  pct_fora
+Tipo de Liberação                        
+MANUAL              31319  1668  5.325841
+MASSIVO            132492  8498  6.413972
+
+==============================================================================
+4c. TOP 3 ANOMALIAS POR VOLUME
+==============================================================================
+            linhas        horas  pct_volume
+Anomalia                                   
+ZCDFNPARC    44208  2431.440000   26.987199
+ZCAJALTO     37635  1202.229167   22.974648
+MANUAL01     27214   869.336111   16.613048
+ZCLTAPDEF    23428  1652.975556   14.301848
+ZC113DIFNG   16702   533.536111   10.195896
+MANUAL05      3913   124.998611    2.388728
+MANUAL03      3476   245.251111    2.121958
+MANUAL00      2325    74.270833    1.419319
+ZCIMPALTO     1535    48.181944    0.937056
+ZCLTAPTL33    1244    87.771111    0.759412
+TOP3 volume............................: ['ZCDFNPARC', 'ZCAJALTO', 'MANUAL01']
+TOP3 volume concentra..................: 66.5749% do volume
+CHECK empate na 3a posicao (volume)....: 1 anomalia(s) com 27214 linhas
+
+==============================================================================
+4d. TOP 3 ANOMALIAS POR TEMPO GASTO
+==============================================================================
+            linhas        horas  pct_volume  pct_horas
+Anomalia                                              
+ZCDFNPARC    44208  2431.440000   26.987199  33.091997
+ZCLTAPDEF    23428  1652.975556   14.301848  22.497064
+ZCAJALTO     37635  1202.229167   22.974648  16.362388
+MANUAL01     27214   869.336111   16.613048  11.831700
+ZC113DIFNG   16702   533.536111   10.195896   7.261448
+MANUAL03      3476   245.251111    2.121958   3.337878
+MANUAL05      3913   124.998611    2.388728   1.701236
+ZCLTAPTL33    1244    87.771111    0.759412   1.194568
+MANUAL00      2325    74.270833    1.419319   1.010829
+ZCIMPALTO     1535    48.181944    0.937056   0.655758
+TOP3 tempo.............................: ['ZCDFNPARC', 'ZCLTAPDEF', 'ZCAJALTO']
+TOP3 tempo concentra...................: 71.9514% do esforco
+CHECK empate na 3a posicao (tempo).....: 1 anomalia(s)
+CHECK soma % volume das anomalias......: 100.000000
+CHECK soma % horas das anomalias.......: 100.000000
+
+==============================================================================
+5. RECORTES DE APOIO
+==============================================================================
+MANUAL01 - concentracao de quebras de SLA:
+  linhas MANUAL01......................: 27214 (16.6130% da base)
+  quebras de SLA em MANUAL01...........: 5425
+  % das quebras totais que sao MANUAL01: 53.3642%
+  % de MANUAL01 fora do SLA............: 19.9346%
+
+Top 5 anomalias por numero absoluto de quebras de SLA:
+          quebras  pct_das_quebras  linhas  taxa_quebra
+Anomalia                                               
+MANUAL00     67.0         0.659060    2325     2.881720
+MANUAL01   5425.0        53.364155   27214    19.934592
+MANUAL02      7.0         0.068857      28    25.000000
+MANUAL03    170.0         1.672241    3476     4.890679
+MANUAL04      1.0         0.009837      26     3.846154
+CHECK quebras somam o total............: 10166 == 10166
+
+Tipo de Tratamento:
+                    linhas        pct
+Tipo de Tratamento                   
+Sem Correção         81942  50.022282
+Com correção         81869  49.977718
+
+Origem:
+                      linhas        pct
+Origem                                 
+Backoffice            112519  68.688305
+Campo                  41402  25.274249
+Clientes Telemedidos    9890   6.037446
+
+Colaborador:
+                linhas        horas  fora_sla  pct_fora_sla  pct_volume
+Colaborador(a)                                                         
+ANA              63278  2684.317222      1267      2.002276   38.628664
+ALFREDO          36725  1552.895556      6192     16.860449   22.419129
+JOSE             25436  1224.621389       872      3.428212   15.527651
+MARTA            11799   631.044444       635      5.381812    7.202813
+NAYARA            7313   357.219444       451      6.167100    4.464291
+CARLA             7261   361.885000       308      4.241840    4.432547
+JESSICA           6388   306.471667       409      6.402630    3.899616
+ANDREA            5611   229.061944        32      0.570308    3.425289
+CHECK colaboradores somam total........: 163811 == 163811
+CHECK horas colaboradores = total......: 7,347.5167 vs 7,347.5167

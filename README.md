@@ -31,6 +31,16 @@ Para regerar o Parquet derivado, depois de alterar a planilha:
 python preparar_dados.py
 ```
 
+Depois de qualquer mudança que afete números, regere os derivados nesta ordem e
+confira que os quatro artefatos continuam concordando:
+
+```bash
+python analise_anomalias.py        # relatório e resultado_analise.xlsx
+python gerar_numeros.py            # numeros.json, com validação
+node gerar_documento.js numeros.json DOCUMENTO_ANALISE.docx
+python verificar_consistencia.py   # confronta os quatro entre si
+```
+
 ---
 
 ## Senha do dashboard
@@ -147,7 +157,11 @@ pode ser regerado a qualquer momento com `python preparar_dados.py`.
 | `saida_execucao.txt` | Saída real da execução, com o log das validações |
 | `DOCUMENTO_ANALISE.docx` | Documento de entrega: contexto, diagnóstico, achados, recomendações e racional |
 | `MEMORIAL_DO_CASE.md` / `.pdf` | Memorial de estudo: anatomia da base, método detalhado, perguntas prováveis |
+| `gerar_numeros.py` | Gera e valida `numeros.json` a partir do núcleo; falha se alguma chave ficar zerada ou se percentuais complementares não somarem 100 |
 | `gerar_documento.js` / `numeros.json` | Geração do `.docx` a partir dos números do núcleo |
+| `verificar_consistencia.py` | Confronta núcleo, `numeros.json`, `.docx` e `.xlsx` entre si; sai com erro se divergirem |
+| `RELATORIO_AUDITORIA.md` | Auditoria independente que recalculou ~75 grandezas do zero |
+| `auditoria_independente.py` | Reimplementação da análise usada pela auditoria, sem importar o núcleo |
 
 A regra de negócio existe **apenas** em `analise_core.py`. O relatório, o
 dashboard e o documento são camadas de apresentação sobre ele, o que impede que

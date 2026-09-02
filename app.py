@@ -309,12 +309,25 @@ SABADOS = num(int((BASE[COL_DT_TRATAMENTO].dt.dayofweek == 5).sum()))
 DIAS_UTEIS_BASE = DF[COL_DT_TRATAMENTO].nunique()
 FTE = HORAS / max(DIAS_UTEIS_BASE * SATURACAO_HORAS_DIA, 1e-9)
 
+# Concentração temporal das quebras: é a evidência correta de que o atraso vem de
+# fila travada, e não de sobrecarga geral. A leitura semanal isolada não sustenta
+# essa conclusão, porque volume e atraso na verdade andam juntos no mensal.
+MENSAL = core.distribuicao_mensal(DF)
+PIOR_MES = MENSAL.sort_values("Fora do SLA", ascending=False).iloc[0]
+
 # A anomalia que mais quebra o SLA — base de toda a priorização das recomendações.
 if not QUEBRAS.empty:
     OFENSORA = QUEBRAS.iloc[0][COL_ANOMALIA]
     IMPACTO = core.impacto_zerar_anomalia(DF, OFENSORA)
 else:
     OFENSORA, IMPACTO = None, {}
+
+# Quantas quebras do pior mês vêm da anomalia ofensora.
+QUEBRAS_MES_OFENSORA = int(DF[
+    DF[COL_DT_ANOMALIA].dt.to_period("M").astype(str).eq(str(PIOR_MES["Mês"]))
+    & DF["Fora do SLA"].eq(True)
+    & DF[COL_ANOMALIA].eq(OFENSORA)
+].shape[0]) if OFENSORA else 0
 
 # Maior consumidora de horas.
 TOP_HORAS = RANKINGS["por_horas"].iloc[0]
@@ -478,11 +491,20 @@ with aba_diag:
             ),
             width="stretch", config=CONFIG_GRAFICO,
         )
+        st.caption(
+            f"Semanas com menos de {num(core.PISO_DENOMINADOR_SEMANAL)} chamados avaliáveis "
+            "ficam sem percentual: com denominador pequeno, meia dúzia de atrasos vira dezenas "
+            "de pontos e domina o gráfico sem significar nada."
+        )
         leitura(
-            "O volume oscila bastante entre semanas, mas o <b>% fora do SLA não acompanha os "
-            "picos de volume</b> — sobe e desce em momentos próprios. Isso é evidência de que "
-            "o atraso não vem de sobrecarga geral: se viesse, as duas linhas andariam juntas. "
-            "Vem de filas específicas que travam."
+            f"O atraso é <b>concentrado no tempo</b>. "
+            f"{pct(PIOR_MES['% das Quebras do Semestre'], 1)} de todas as quebras do semestre "
+            f"caem em um único mês ({PIOR_MES['Mês']}), que é também o de maior volume: "
+            f"volume e atraso andam juntos. Isso sugeriria falta de capacidade, mas a "
+            f"composição desmente. Naquele mês, <b>{num(QUEBRAS_MES_OFENSORA)} das "
+            f"{num(int(PIOR_MES['Fora do SLA']))} quebras são da <code>{OFENSORA}</code></b>. "
+            "Não é a operação que desacelera quando o volume sobe; é sempre a mesma fila "
+            "que transborda."
         )
 
     st.markdown("### Onde o SLA quebra")
@@ -538,8 +560,9 @@ with aba_diag:
             f"<b>Aqui está o achado mais acionável de toda a análise.</b> A anomalia "
             f"<code>{OFENSORA}</code> representa {pct(vol_ofensora, 1)} do volume, mas responde por "
             f"<b>{pct(linha['% de Todas as Quebras'], 1)} de todas as quebras de SLA</b>. Ela falha em "
-            f"{pct(linha['% do Volume da Anomalia'], 1)} das próprias ocorrências — contra 2,2% da maior "
-            "anomalia em volume. O indicador agregado de "
+            f"{pct(linha['% do Volume da Anomalia'], 1)} dos próprios chamados avaliáveis, contra "
+            f"{pct(RANKINGS['por_volume'].iloc[0]['% Fora do SLA'], 1)} da maior anomalia em volume. "
+            "O indicador agregado de "
             f"{pct(PCT_FORA, 2)} esconde que metade da dor está em um único código."
         )
 

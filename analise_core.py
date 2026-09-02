@@ -591,7 +591,16 @@ def ranking_anomalias(df: pd.DataFrame) -> dict:
     )
     ranking["% do Volume"] = ranking["Chamados"] / len(df) * 100
     ranking["% do Esforço"] = ranking["Horas Totais"] / ranking["Horas Totais"].sum() * 100
-    ranking["% Fora do SLA"] = ranking["Chamados Fora do SLA"] / ranking["Chamados"] * 100
+    # Denominador: chamados AVALIÁVEIS da anomalia, e não o volume dela. É o mesmo
+    # denominador do indicador geral e dos cortes por origem, para que os recortes
+    # possam ser comparados entre si sem ressalva.
+    avaliaveis_por_anomalia = df.groupby(COL_ANOMALIA)["Dentro do SLA"].apply(
+        lambda s: s.notna().sum()
+    )
+    ranking["Chamados Avaliáveis"] = ranking[COL_ANOMALIA].map(avaliaveis_por_anomalia)
+    ranking["% Fora do SLA"] = (
+        ranking["Chamados Fora do SLA"] / ranking["Chamados Avaliáveis"].replace(0, np.nan) * 100
+    )
     ranking["% Manual"] = ranking[COL_ANOMALIA].map(
         df.groupby(COL_ANOMALIA)[COL_TIPO_LIBERACAO].apply(lambda s: s.eq("MANUAL").mean() * 100)
     )
@@ -615,9 +624,11 @@ def contribuicao_quebras_sla(df: pd.DataFrame, topo: int = 8) -> pd.DataFrame:
         name="Chamados Fora do SLA"
     )
     tabela["% de Todas as Quebras"] = tabela["Chamados Fora do SLA"] / len(fora) * 100
-    volume = df.groupby(COL_ANOMALIA).size()
+    # Mesmo denominador do indicador geral: avaliáveis, não volume bruto.
+    avaliaveis = df.groupby(COL_ANOMALIA)["Dentro do SLA"].apply(lambda s: s.notna().sum())
     tabela["% do Volume da Anomalia"] = (
-        tabela["Chamados Fora do SLA"] / tabela[COL_ANOMALIA].map(volume) * 100
+        tabela["Chamados Fora do SLA"]
+        / tabela[COL_ANOMALIA].map(avaliaveis).replace(0, np.nan) * 100
     )
     tabela["% Acumulado"] = tabela["% de Todas as Quebras"].cumsum()
     return tabela.head(topo)
@@ -661,9 +672,22 @@ def esforco_por_liberacao_unitario(df: pd.DataFrame) -> dict:
     return resultado
 
 
-def serie_temporal(df: pd.DataFrame, freq: str = "W") -> pd.DataFrame:
-    """Evolução do volume e do % fora do SLA ao longo do tempo, pela data da
-    anomalia (quando o problema nasceu, não quando foi resolvido)."""
+# Abaixo deste número de chamados avaliáveis, o percentual de uma semana é ruído:
+# a base tem semanas de pouco mais de cem chamados, onde meia dúzia de atrasos vira
+# dezenas de pontos percentuais e domina o gráfico sem significar nada.
+PISO_DENOMINADOR_SEMANAL = 500
+
+
+def serie_temporal(df: pd.DataFrame, freq: str = "W",
+                   piso: int = PISO_DENOMINADOR_SEMANAL) -> pd.DataFrame:
+    """
+    Evolução do volume e do % fora do SLA ao longo do tempo, pela data da
+    anomalia (quando o problema nasceu, não quando foi resolvido).
+
+    Períodos com menos de `piso` chamados avaliáveis ficam com o percentual nulo
+    em vez de um número instável. A coluna 'Denominador Suficiente' registra quais
+    entraram no cálculo.
+    """
     temp = df[df[COL_DT_ANOMALIA].notna()].copy()
     temp["periodo"] = temp[COL_DT_ANOMALIA].dt.to_period(freq).dt.start_time
     serie = (
@@ -677,7 +701,35 @@ def serie_temporal(df: pd.DataFrame, freq: str = "W") -> pd.DataFrame:
         .reset_index()
     )
     serie["% Fora do SLA"] = serie["Fora do SLA"] / serie["Avaliáveis"].replace(0, np.nan) * 100
+    serie["Denominador Suficiente"] = serie["Avaliáveis"] >= piso
+    serie.loc[~serie["Denominador Suficiente"], "% Fora do SLA"] = np.nan
     return serie
+
+
+def distribuicao_mensal(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Volume e cumprimento de prazo por mês de geração da anomalia.
+
+    A leitura mensal é a defensável para relacionar volume e atraso: no semanal,
+    períodos de poucas centenas de chamados produzem percentuais instáveis.
+    """
+    temp = df[df[COL_DT_ANOMALIA].notna()].copy()
+    temp["Mês"] = temp[COL_DT_ANOMALIA].dt.to_period("M").astype(str)
+    total_fora = int(df["Fora do SLA"].eq(True).sum())
+    mensal = (
+        temp.groupby("Mês")
+        .agg(**{
+            "Chamados": (COL_DOCUMENTO, "size"),
+            "Avaliáveis": ("Dentro do SLA", lambda s: s.notna().sum()),
+            "Fora do SLA": ("Fora do SLA", "sum"),
+        })
+        .reset_index()
+    )
+    mensal["% Fora do SLA"] = (
+        mensal["Fora do SLA"] / mensal["Avaliáveis"].replace(0, np.nan) * 100
+    )
+    mensal["% das Quebras do Semestre"] = mensal["Fora do SLA"] / max(total_fora, 1) * 100
+    return mensal
 
 
 def distribuicao_atraso(df: pd.DataFrame, maximo: int = 10) -> pd.DataFrame:
@@ -709,10 +761,13 @@ def perfil_colaborador(df: pd.DataFrame, por_colaborador: pd.DataFrame) -> pd.Da
     leitura de desempenho.
     """
     perfil = por_colaborador.copy()
+    # Denominador: avaliáveis, igual ao indicador geral e aos demais cortes.
     fora = df.groupby(COL_COLABORADOR).agg(
-        ch=(COL_DOCUMENTO, "size"), fo=("Fora do SLA", "sum")
+        av=("Dentro do SLA", lambda s: s.notna().sum()), fo=("Fora do SLA", "sum")
     )
-    perfil["% Fora do SLA"] = perfil[COL_COLABORADOR].map(fora["fo"] / fora["ch"] * 100)
+    perfil["% Fora do SLA"] = perfil[COL_COLABORADOR].map(
+        fora["fo"] / fora["av"].replace(0, np.nan) * 100
+    )
     perfil["% Manual"] = perfil[COL_COLABORADOR].map(
         df.groupby(COL_COLABORADOR)[COL_TIPO_LIBERACAO].apply(lambda s: s.eq("MANUAL").mean() * 100)
     )

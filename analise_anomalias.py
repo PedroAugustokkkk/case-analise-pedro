@@ -465,6 +465,13 @@ def exportar(df: pd.DataFrame, saturacao: pd.DataFrame, por_colaborador: pd.Data
             ("[D5] Top 3 por tempo", "Total e médio unitário", "Rankings diferentes, ambos entregues"),
             ("[D6] Aba Expectativa", "Enunciado, não layout", "Não define formato de saída a ser espelhado"),
             ("[D7] Data invertida", "Sinalizada e excluída do SLA", "Tratamento anterior à anomalia é impossível no processo"),
+            ("Denominador de '% Fora do SLA'", "Chamados avaliáveis",
+             "Mesmo denominador em todos os cortes (geral, anomalia, colaborador, origem): "
+             "o total menos os registros com data invertida"),
+            ("Coluna 'Estourou Saturação' na Base Enriquecida", "Flag do DIA, repetida por linha",
+             "Somar a coluna NÃO dá o número de estouros. Ela marca todas as linhas de um dia "
+             "que estourou. A contagem correta (33) está na aba 'Saturação por Dia', com um "
+             "registro por par colaborador-dia"),
         ],
         columns=["Item", "Definição", "Justificativa"],
     )

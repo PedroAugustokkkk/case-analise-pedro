@@ -1,8 +1,9 @@
 /**
  * Gera DOCUMENTO_ANALISE.docx — o texto que acompanha o dashboard na entrega.
  *
- * Os números não são digitados: vêm de numeros.json, produzido pelo mesmo
- * núcleo analítico (analise_core.py) que alimenta o relatório e o painel.
+ * Os números não são digitados: vêm de numeros.json, gerado por gerar_numeros.py
+ * a partir do mesmo núcleo analítico (analise_core.py) que alimenta o relatório e
+ * o painel. Rode `python gerar_numeros.py` antes deste script.
  */
 
 const fs = require("fs");
@@ -193,7 +194,8 @@ corpo.push(h1("1. Resumo executivo"));
 
 corpo.push(p([
   T("A operação tratou "), B(`${nf(N.total)} retenções de faturamento`),
-  T(` entre ${N.ini} e ${N.fim_anom}. Desse total, `), B(pc(N.pct_fora)),
+  T(` geradas entre ${N.ini} e ${N.fim_anom}, com tratamentos registrados até ${N.fim_trat}. `),
+  T(`Dos ${nf(N.avaliaveis)} chamados avaliáveis, `), B(pc(N.pct_fora)),
   T(" ficaram fora do prazo de dois dias. O número agregado é bom e esconde o que importa para a decisão: a falha não está distribuída pela operação. Uma única anomalia, a "),
   C("MANUAL01"), T(", responde por "), B(pc(N.of_pct_quebras, 1)),
   T(` de todas as quebras de prazo do semestre, embora represente apenas ${pc(N.of_vol, 1)} do volume.`),
@@ -245,7 +247,7 @@ corpo.push(p([
 ]));
 
 corpo.push(p([
-  T(`A divisão entre corrigir e apenas liberar ficou em ${pc(N.com_correcao, 1)} contra ${pc(N.sem_correcao, 1)} no semestre. Metade das retenções, portanto, não tinha erro nenhum a corrigir. Voltamos a esse ponto na seção de recomendações, porque ele tem consequência prática.`),
+  T(`A divisão entre corrigir e apenas liberar ficou praticamente meio a meio: ${nf(N.com_ch)} casos exigiram correção e ${nf(N.sem_ch)} foram apenas liberados, ${pc(N.sem_correcao, 1)} do total. Metade das retenções, portanto, não tinha erro nenhum a corrigir. Voltamos a esse ponto na seção de recomendações, porque ele tem consequência prática.`),
 ]));
 
 corpo.push(h2("Números gerais"));
@@ -283,7 +285,15 @@ corpo.push(p([
 ]));
 
 corpo.push(p([
-  T("Quando o atraso vem de sobrecarga, ele acompanha os picos de volume. Não é o que acontece aqui: comparando semana a semana, o percentual fora do prazo sobe e desce em momentos que não coincidem com as semanas de maior volume. A interpretação que fazemos é que o atraso vem de filas específicas que travam, e não da capacidade da equipe."),
+  T(`O atraso é concentrado no tempo, e muito. Das ${nf(N.fora)} quebras do semestre, `),
+  B(`${nf(N.marco_quebras)} estão em ${N.marco_nome}`),
+  T(`, ou ${pc(N.marco_pct_quebras, 1)} do total. Nesse mês o percentual fora do prazo chega a ${pc(N.marco_pct_fora, 2)}, contra menos de 3% em quatro dos outros cinco meses.`),
+]));
+
+corpo.push(p([
+  T(`${N.marco_nome.charAt(0).toUpperCase() + N.marco_nome.slice(1)} é também o mês de maior volume, com ${nf(N.marco_chamados)} anomalias geradas, e a correlação entre volume mensal e percentual fora do prazo é de ${nf(N.correlacao_mensal, 2)}. Volume e atraso andam juntos, o que à primeira vista sugeriria falta de capacidade. A composição das quebras aponta outra coisa: `),
+  B(`${nf(N.marco_of_quebras)} das ${nf(N.marco_quebras)} quebras desse mês são da ${N.ofensora}`),
+  T(`, e ${nf(N.marco_of_dono_quebras)} delas estão com um único colaborador. Quando o volume sobe, não é a operação inteira que desacelera. É sempre a mesma fila que transborda.`),
 ]));
 
 // ---- 3.2
@@ -304,7 +314,7 @@ corpo.push(legenda("A quarta coluna separa a anomalia que aparece muito da que f
 
 corpo.push(p([
   T("A "), C("MANUAL01"), T(` é ${pc(N.of_vol, 1)} do volume e ${pc(N.of_pct_quebras, 1)} das quebras. Ela estoura o prazo em `),
-  B(pc(N.of_pct_fora, 1)), T(` das próprias ocorrências, contra ${pc(N.top_volume[0].fora, 1)} da anomalia de maior volume da base. As duas primeiras linhas da tabela somam ${pc(N.quebras[1].acum, 1)} de tudo o que atrasa no semestre.`),
+  B(pc(N.of_pct_fora, 1)), T(` dos próprios chamados avaliáveis, contra ${pc(N.top_volume[0].fora, 1)} da anomalia de maior volume da base. As duas primeiras linhas da tabela somam ${pc(N.quebras[1].acum, 1)} de tudo o que atrasa no semestre.`),
 ]));
 
 const od = N.of_dist;

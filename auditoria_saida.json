@@ -1,0 +1,811 @@
+{
+  "linhas_base_original": 163811,
+  "colunas_base": [
+    "Documento",
+    "Anomalia",
+    "Data da Anomalia",
+    "Data de Tratamento",
+    "Tipo de Tratamento",
+    "Tipo de Liberação",
+    "Origem",
+    "Colaborador(a)"
+  ],
+  "nulos_totais": 0,
+  "linhas_duplicadas_identicas": 0,
+  "premissas_anomalias": 43,
+  "premissas_chave_duplicada": 0,
+  "registros_data_invertida": 537,
+  "dias_min": -14,
+  "dias_max": 120,
+  "dias_media_todos": 0.4081,
+  "linhas_validas_sla": 163274,
+  "qtd_fora_sla": 10166,
+  "qtd_dentro_sla": 153108,
+  "pct_fora_sla_PRINCIPAL": 6.2263,
+  "pct_dentro_sla_PRINCIPAL": 93.7737,
+  "VAR_pct_fora_sla_denominador_total": 6.2059,
+  "VAR_pct_fora_sla_usando_abs": 6.2065,
+  "VAR_pct_fora_se_limite_fosse_ge2": 10.5118,
+  "VAR_pct_fora_sla_dias_uteis": 1.1576,
+  "dias_media_validos": 0.4161,
+  "dias_mediana_validos": 0.0,
+  "distribuicao_dias": {
+    "-14": 1,
+    "-2": 536,
+    "0": 132238,
+    "1": 13873,
+    "2": 6997,
+    "3": 5690,
+    "4": 3458,
+    "5": 250,
+    "6": 126,
+    "7": 212,
+    "8": 94,
+    "9": 71,
+    "10": 63,
+    "11": 14,
+    "12": 14,
+    "13": 3,
+    "14": 1,
+    "15": 46,
+    "16": 40,
+    "17": 31,
+    "18": 15,
+    "19": 10,
+    "22": 9,
+    "23": 6,
+    "24": 4,
+    "25": 1,
+    "50": 1,
+    "51": 1,
+    "52": 2,
+    "57": 2,
+    "73": 1,
+    "120": 1
+  },
+  "linhas_antes_merge": 163811,
+  "linhas_depois_merge": 163811,
+  "merge_inflou_linhas": false,
+  "linhas_sem_tempo_medio": 0,
+  "anomalias_base_sem_premissa": [],
+  "anomalias_premissa_sem_base": [
+    "ZCCL<15",
+    "ZCCOVID19",
+    "ZCDFLRCPI",
+    "ZCIMPNEG",
+    "ZCOSB",
+    "ZCOSB_OLT",
+    "ZCSDEMI",
+    "ZFDJUDVL",
+    "ZFINCONS",
+    "ZFOSB",
+    "ZFOSB_SRTC"
+  ],
+  "esforco_total_horas": 7347.5167,
+  "esforco_total_minutos": 440851.0,
+  "pares_colaborador_dia": 697,
+  "pares_com_estouro": 157,
+  "pct_pares_com_estouro": 22.5251,
+  "horas_soma_sat": 7347.5167,
+  "conferencia_horas_sat_vs_total": 0.0,
+  "horas_media_por_par": 10.5416,
+  "horas_max_par": 612.3069,
+  "top10_saturacao": [
+    {
+      "colaborador": "JOSE",
+      "data": "2026-06-30",
+      "horas": 612.307,
+      "anomalias": 11470
+    },
+    {
+      "colaborador": "ALFREDO",
+      "data": "2026-03-13",
+      "horas": 306.376,
+      "anomalias": 9348
+    },
+    {
+      "colaborador": "ANA",
+      "data": "2026-05-25",
+      "horas": 290.532,
+      "anomalias": 8225
+    },
+    {
+      "colaborador": "ALFREDO",
+      "data": "2026-03-17",
+      "horas": 272.563,
+      "anomalias": 7827
+    },
+    {
+      "colaborador": "ALFREDO",
+      "data": "2026-03-16",
+      "horas": 232.558,
+      "anomalias": 6910
+    },
+    {
+      "colaborador": "JOSE",
+      "data": "2026-05-29",
+      "horas": 220.593,
+      "anomalias": 4684
+    },
+    {
+      "colaborador": "ANA",
+      "data": "2026-02-27",
+      "horas": 174.874,
+      "anomalias": 4189
+    },
+    {
+      "colaborador": "ANA",
+      "data": "2026-03-31",
+      "horas": 159.641,
+      "anomalias": 3410
+    },
+    {
+      "colaborador": "ANA",
+      "data": "2026-02-19",
+      "horas": 156.406,
+      "anomalias": 3910
+    },
+    {
+      "colaborador": "ANA",
+      "data": "2026-02-23",
+      "horas": 139.273,
+      "anomalias": 2653
+    }
+  ],
+  "por_colaborador": [
+    {
+      "Colaborador(a)": "ALFREDO",
+      "volume": 36725,
+      "horas": 1552.8955555556,
+      "dias_estouro": 32,
+      "dias_trabalhados": 90,
+      "pct_dias_estouro": 35.5555555556
+    },
+    {
+      "Colaborador(a)": "ANA",
+      "volume": 63278,
+      "horas": 2684.3172222222,
+      "dias_estouro": 45,
+      "dias_trabalhados": 90,
+      "pct_dias_estouro": 50.0
+    },
+    {
+      "Colaborador(a)": "ANDREA",
+      "volume": 5611,
+      "horas": 229.0619444444,
+      "dias_estouro": 4,
+      "dias_trabalhados": 34,
+      "pct_dias_estouro": 11.7647058824
+    },
+    {
+      "Colaborador(a)": "CARLA",
+      "volume": 7261,
+      "horas": 361.885,
+      "dias_estouro": 12,
+      "dias_trabalhados": 107,
+      "pct_dias_estouro": 11.214953271
+    },
+    {
+      "Colaborador(a)": "JESSICA",
+      "volume": 6388,
+      "horas": 306.4716666667,
+      "dias_estouro": 5,
+      "dias_trabalhados": 107,
+      "pct_dias_estouro": 4.6728971963
+    },
+    {
+      "Colaborador(a)": "JOSE",
+      "volume": 25436,
+      "horas": 1224.6213888889,
+      "dias_estouro": 18,
+      "dias_trabalhados": 89,
+      "pct_dias_estouro": 20.2247191011
+    },
+    {
+      "Colaborador(a)": "MARTA",
+      "volume": 11799,
+      "horas": 631.0444444444,
+      "dias_estouro": 31,
+      "dias_trabalhados": 69,
+      "pct_dias_estouro": 44.9275362319
+    },
+    {
+      "Colaborador(a)": "NAYARA",
+      "volume": 7313,
+      "horas": 357.2194444444,
+      "dias_estouro": 10,
+      "dias_trabalhados": 111,
+      "pct_dias_estouro": 9.009009009
+    }
+  ],
+  "manual_massivo": [
+    {
+      "Tipo de Liberação": "MANUAL",
+      "volume": 31319,
+      "horas": 1540.5444444444,
+      "pct_volume": 19.1189846836,
+      "pct_horas": 20.9668724051
+    },
+    {
+      "Tipo de Liberação": "MASSIVO",
+      "volume": 132492,
+      "horas": 5806.9722222222,
+      "pct_volume": 80.8810153164,
+      "pct_horas": 79.0331275949
+    }
+  ],
+  "check_pct_volume_soma100": 100.0,
+  "check_pct_horas_soma100": 100.0,
+  "check_volume_soma_total": true,
+  "tipo_tratamento": [
+    {
+      "Tipo de Tratamento": "Com correção",
+      "volume": 81869,
+      "horas": 3675.5491666667,
+      "pct_volume": 49.9777182241
+    },
+    {
+      "Tipo de Tratamento": "Sem Correção",
+      "volume": 81942,
+      "horas": 3671.9675,
+      "pct_volume": 50.0222817759
+    }
+  ],
+  "origem": [
+    {
+      "Origem": "Backoffice",
+      "volume": 112519,
+      "horas": 4583.2794444444,
+      "pct_volume": 68.6883054252
+    },
+    {
+      "Origem": "Campo",
+      "volume": 41402,
+      "horas": 2086.6952777778,
+      "pct_volume": 25.2742489821
+    },
+    {
+      "Origem": "Clientes Telemedidos",
+      "volume": 9890,
+      "horas": 677.5419444444,
+      "pct_volume": 6.0374455928
+    }
+  ],
+  "top_volume": [
+    {
+      "Anomalia": "ZCDFNPARC",
+      "volume": 44208,
+      "horas": 2431.44,
+      "min_unit": 3.3,
+      "pct_volume": 26.9871986619,
+      "pct_horas": 33.0919970693,
+      "fora_sla": 976,
+      "linhas_validas": 44086,
+      "pct_fora_sla": 2.2138547385
+    },
+    {
+      "Anomalia": "ZCAJALTO",
+      "volume": 37635,
+      "horas": 1202.2291666667,
+      "min_unit": 1.9166666667,
+      "pct_volume": 22.9746476122,
+      "pct_horas": 16.3623877455,
+      "fora_sla": 231,
+      "linhas_validas": 37609,
+      "pct_fora_sla": 0.6142146827
+    },
+    {
+      "Anomalia": "MANUAL01",
+      "volume": 27214,
+      "horas": 869.3361111111,
+      "min_unit": 1.9166666667,
+      "pct_volume": 16.6130479638,
+      "pct_horas": 11.8316997504,
+      "fora_sla": 5425,
+      "linhas_validas": 27213,
+      "pct_fora_sla": 19.9353250285
+    },
+    {
+      "Anomalia": "ZCLTAPDEF",
+      "volume": 23428,
+      "horas": 1652.9755555556,
+      "min_unit": 4.2333333333,
+      "pct_volume": 14.3018478613,
+      "pct_horas": 22.4970643899,
+      "fora_sla": 1223,
+      "linhas_validas": 23252,
+      "pct_fora_sla": 5.2597626011
+    },
+    {
+      "Anomalia": "ZC113DIFNG",
+      "volume": 16702,
+      "horas": 533.5361111111,
+      "min_unit": 1.9166666667,
+      "pct_volume": 10.1958964905,
+      "pct_horas": 7.2614481234,
+      "fora_sla": 1211,
+      "linhas_validas": 16605,
+      "pct_fora_sla": 7.292984041
+    }
+  ],
+  "top_horas": [
+    {
+      "Anomalia": "ZCDFNPARC",
+      "volume": 44208,
+      "horas": 2431.44,
+      "min_unit": 3.3,
+      "pct_volume": 26.9871986619,
+      "pct_horas": 33.0919970693,
+      "fora_sla": 976,
+      "linhas_validas": 44086,
+      "pct_fora_sla": 2.2138547385
+    },
+    {
+      "Anomalia": "ZCLTAPDEF",
+      "volume": 23428,
+      "horas": 1652.9755555556,
+      "min_unit": 4.2333333333,
+      "pct_volume": 14.3018478613,
+      "pct_horas": 22.4970643899,
+      "fora_sla": 1223,
+      "linhas_validas": 23252,
+      "pct_fora_sla": 5.2597626011
+    },
+    {
+      "Anomalia": "ZCAJALTO",
+      "volume": 37635,
+      "horas": 1202.2291666667,
+      "min_unit": 1.9166666667,
+      "pct_volume": 22.9746476122,
+      "pct_horas": 16.3623877455,
+      "fora_sla": 231,
+      "linhas_validas": 37609,
+      "pct_fora_sla": 0.6142146827
+    },
+    {
+      "Anomalia": "MANUAL01",
+      "volume": 27214,
+      "horas": 869.3361111111,
+      "min_unit": 1.9166666667,
+      "pct_volume": 16.6130479638,
+      "pct_horas": 11.8316997504,
+      "fora_sla": 5425,
+      "linhas_validas": 27213,
+      "pct_fora_sla": 19.9353250285
+    },
+    {
+      "Anomalia": "ZC113DIFNG",
+      "volume": 16702,
+      "horas": 533.5361111111,
+      "min_unit": 1.9166666667,
+      "pct_volume": 10.1958964905,
+      "pct_horas": 7.2614481234,
+      "fora_sla": 1211,
+      "linhas_validas": 16605,
+      "pct_fora_sla": 7.292984041
+    }
+  ],
+  "empate_top3_volume": false,
+  "empate_top3_horas": false,
+  "top3_volume_pct_acumulado": 66.5749,
+  "top3_horas_pct_acumulado": 71.9514,
+  "top_fora_sla": [
+    {
+      "Anomalia": "MANUAL01",
+      "volume": 27214,
+      "horas": 869.3361111111,
+      "min_unit": 1.9166666667,
+      "pct_volume": 16.6130479638,
+      "pct_horas": 11.8316997504,
+      "fora_sla": 5425,
+      "linhas_validas": 27213,
+      "pct_fora_sla": 19.9353250285
+    },
+    {
+      "Anomalia": "ZCLTAPDEF",
+      "volume": 23428,
+      "horas": 1652.9755555556,
+      "min_unit": 4.2333333333,
+      "pct_volume": 14.3018478613,
+      "pct_horas": 22.4970643899,
+      "fora_sla": 1223,
+      "linhas_validas": 23252,
+      "pct_fora_sla": 5.2597626011
+    },
+    {
+      "Anomalia": "ZC113DIFNG",
+      "volume": 16702,
+      "horas": 533.5361111111,
+      "min_unit": 1.9166666667,
+      "pct_volume": 10.1958964905,
+      "pct_horas": 7.2614481234,
+      "fora_sla": 1211,
+      "linhas_validas": 16605,
+      "pct_fora_sla": 7.292984041
+    },
+    {
+      "Anomalia": "ZCDFNPARC",
+      "volume": 44208,
+      "horas": 2431.44,
+      "min_unit": 3.3,
+      "pct_volume": 26.9871986619,
+      "pct_horas": 33.0919970693,
+      "fora_sla": 976,
+      "linhas_validas": 44086,
+      "pct_fora_sla": 2.2138547385
+    },
+    {
+      "Anomalia": "MANUAL05",
+      "volume": 3913,
+      "horas": 124.9986111111,
+      "min_unit": 1.9166666667,
+      "pct_volume": 2.3887284737,
+      "pct_horas": 1.7012361697,
+      "fora_sla": 575,
+      "linhas_validas": 3913,
+      "pct_fora_sla": 14.6946077179
+    }
+  ],
+  "MANUAL01_qtd_fora_sla": 5425,
+  "MANUAL01_pct_do_total_de_quebras": 53.3642,
+  "MANUAL01_pct_fora_sla_interno": 19.9353,
+  "check_soma_fora_sla_por_anomalia": true,
+  "check_soma_volume_por_anomalia": true,
+  "check_soma_horas_por_anomalia": 0.0,
+  "por_anomalia": [
+    {
+      "Anomalia": "MANUAL00",
+      "volume": 2325,
+      "horas": 74.2708333333,
+      "min_unit": 1.9166666667,
+      "pct_volume": 1.419318605,
+      "pct_horas": 1.0108290556,
+      "fora_sla": 67,
+      "linhas_validas": 2273,
+      "pct_fora_sla": 2.9476462824
+    },
+    {
+      "Anomalia": "MANUAL01",
+      "volume": 27214,
+      "horas": 869.3361111111,
+      "min_unit": 1.9166666667,
+      "pct_volume": 16.6130479638,
+      "pct_horas": 11.8316997504,
+      "fora_sla": 5425,
+      "linhas_validas": 27213,
+      "pct_fora_sla": 19.9353250285
+    },
+    {
+      "Anomalia": "MANUAL02",
+      "volume": 28,
+      "horas": 2.8233333333,
+      "min_unit": 6.05,
+      "pct_volume": 0.0170928692,
+      "pct_horas": 0.0384256812,
+      "fora_sla": 7,
+      "linhas_validas": 28,
+      "pct_fora_sla": 25.0
+    },
+    {
+      "Anomalia": "MANUAL03",
+      "volume": 3476,
+      "horas": 245.2511111111,
+      "min_unit": 4.2333333333,
+      "pct_volume": 2.1219576219,
+      "pct_horas": 3.3378775747,
+      "fora_sla": 170,
+      "linhas_validas": 3439,
+      "pct_fora_sla": 4.9432974702
+    },
+    {
+      "Anomalia": "MANUAL04",
+      "volume": 26,
+      "horas": 1.8344444444,
+      "min_unit": 4.2333333333,
+      "pct_volume": 0.01587195,
+      "pct_horas": 0.0249668633,
+      "fora_sla": 1,
+      "linhas_validas": 26,
+      "pct_fora_sla": 3.8461538462
+    },
+    {
+      "Anomalia": "MANUAL05",
+      "volume": 3913,
+      "horas": 124.9986111111,
+      "min_unit": 1.9166666667,
+      "pct_volume": 2.3887284737,
+      "pct_horas": 1.7012361697,
+      "fora_sla": 575,
+      "linhas_validas": 3913,
+      "pct_fora_sla": 14.6946077179
+    },
+    {
+      "Anomalia": "MANUAL06",
+      "volume": 22,
+      "horas": 0.2016666667,
+      "min_unit": 0.55,
+      "pct_volume": 0.0134301115,
+      "pct_horas": 0.0027446915,
+      "fora_sla": 4,
+      "linhas_validas": 22,
+      "pct_fora_sla": 18.1818181818
+    },
+    {
+      "Anomalia": "MANUAL07",
+      "volume": 2,
+      "horas": 0.0638888889,
+      "min_unit": 1.9166666667,
+      "pct_volume": 0.0012209192,
+      "pct_horas": 0.0008695304,
+      "fora_sla": 0,
+      "linhas_validas": 2,
+      "pct_fora_sla": 0.0
+    },
+    {
+      "Anomalia": "MANUAL08",
+      "volume": 40,
+      "horas": 1.2777777778,
+      "min_unit": 1.9166666667,
+      "pct_volume": 0.0244183846,
+      "pct_horas": 0.0173906074,
+      "fora_sla": 2,
+      "linhas_validas": 40,
+      "pct_fora_sla": 5.0
+    },
+    {
+      "Anomalia": "MANUAL09",
+      "volume": 1,
+      "horas": 0.0319444444,
+      "min_unit": 1.9166666667,
+      "pct_volume": 0.0006104596,
+      "pct_horas": 0.0004347652,
+      "fora_sla": 0,
+      "linhas_validas": 1,
+      "pct_fora_sla": 0.0
+    },
+    {
+      "Anomalia": "OSB-Amount",
+      "volume": 1069,
+      "horas": 34.1486111111,
+      "min_unit": 1.9166666667,
+      "pct_volume": 0.6525813285,
+      "pct_horas": 0.464763983,
+      "fora_sla": 7,
+      "linhas_validas": 1069,
+      "pct_fora_sla": 0.6548175865
+    },
+    {
+      "Anomalia": "ZC113DIFNG",
+      "volume": 16702,
+      "horas": 533.5361111111,
+      "min_unit": 1.9166666667,
+      "pct_volume": 10.1958964905,
+      "pct_horas": 7.2614481234,
+      "fora_sla": 1211,
+      "linhas_validas": 16605,
+      "pct_fora_sla": 7.292984041
+    },
+    {
+      "Anomalia": "ZC113MULEQ",
+      "volume": 2,
+      "horas": 0.0638888889,
+      "min_unit": 1.9166666667,
+      "pct_volume": 0.0012209192,
+      "pct_horas": 0.0008695304,
+      "fora_sla": 0,
+      "linhas_validas": 2,
+      "pct_fora_sla": 0.0
+    },
+    {
+      "Anomalia": "ZCAJALTO",
+      "volume": 37635,
+      "horas": 1202.2291666667,
+      "min_unit": 1.9166666667,
+      "pct_volume": 22.9746476122,
+      "pct_horas": 16.3623877455,
+      "fora_sla": 231,
+      "linhas_validas": 37609,
+      "pct_fora_sla": 0.6142146827
+    },
+    {
+      "Anomalia": "ZCCL<27",
+      "volume": 63,
+      "horas": 2.0125,
+      "min_unit": 1.9166666667,
+      "pct_volume": 0.0384589557,
+      "pct_horas": 0.0273902067,
+      "fora_sla": 0,
+      "linhas_validas": 63,
+      "pct_fora_sla": 0.0
+    },
+    {
+      "Anomalia": "ZCDEVEXC",
+      "volume": 99,
+      "horas": 9.9275,
+      "min_unit": 6.0166666667,
+      "pct_volume": 0.0604355019,
+      "pct_horas": 0.1351136779,
+      "fora_sla": 9,
+      "linhas_validas": 99,
+      "pct_fora_sla": 9.0909090909
+    },
+    {
+      "Anomalia": "ZCDFNPARC",
+      "volume": 44208,
+      "horas": 2431.44,
+      "min_unit": 3.3,
+      "pct_volume": 26.9871986619,
+      "pct_horas": 33.0919970693,
+      "fora_sla": 976,
+      "linhas_validas": 44086,
+      "pct_fora_sla": 2.2138547385
+    },
+    {
+      "Anomalia": "ZCFPMBAI",
+      "volume": 22,
+      "horas": 0.6416666667,
+      "min_unit": 1.75,
+      "pct_volume": 0.0134301115,
+      "pct_horas": 0.0087331094,
+      "fora_sla": 2,
+      "linhas_validas": 22,
+      "pct_fora_sla": 9.0909090909
+    },
+    {
+      "Anomalia": "ZCIMPALTO",
+      "volume": 1535,
+      "horas": 48.1819444444,
+      "min_unit": 1.8833333333,
+      "pct_volume": 0.9370555091,
+      "pct_horas": 0.6557582191,
+      "fora_sla": 68,
+      "linhas_validas": 1521,
+      "pct_fora_sla": 4.4707429323
+    },
+    {
+      "Anomalia": "ZCLAJ_SP42",
+      "volume": 105,
+      "horas": 1.2833333333,
+      "min_unit": 0.7333333333,
+      "pct_volume": 0.0640982596,
+      "pct_horas": 0.0174662187,
+      "fora_sla": 10,
+      "linhas_validas": 105,
+      "pct_fora_sla": 9.5238095238
+    },
+    {
+      "Anomalia": "ZCLAJ_SP47",
+      "volume": 202,
+      "horas": 6.9016666667,
+      "min_unit": 2.05,
+      "pct_volume": 0.1233128422,
+      "pct_horas": 0.0939319634,
+      "fora_sla": 12,
+      "linhas_validas": 198,
+      "pct_fora_sla": 6.0606060606
+    },
+    {
+      "Anomalia": "ZCLAJ_SP56",
+      "volume": 110,
+      "horas": 1.3444444444,
+      "min_unit": 0.7333333333,
+      "pct_volume": 0.0671505577,
+      "pct_horas": 0.0182979434,
+      "fora_sla": 41,
+      "linhas_validas": 110,
+      "pct_fora_sla": 37.2727272727
+    },
+    {
+      "Anomalia": "ZCLBXIRREG",
+      "volume": 2,
+      "horas": 0.0638888889,
+      "min_unit": 1.9166666667,
+      "pct_volume": 0.0012209192,
+      "pct_horas": 0.0008695304,
+      "fora_sla": 0,
+      "linhas_validas": 2,
+      "pct_fora_sla": 0.0
+    },
+    {
+      "Anomalia": "ZCLE_48_56",
+      "volume": 1,
+      "horas": 0.0319444444,
+      "min_unit": 1.9166666667,
+      "pct_volume": 0.0006104596,
+      "pct_horas": 0.0004347652,
+      "fora_sla": 0,
+      "linhas_validas": 1,
+      "pct_fora_sla": 0.0
+    },
+    {
+      "Anomalia": "ZCLN_34_42",
+      "volume": 45,
+      "horas": 1.4375,
+      "min_unit": 1.9166666667,
+      "pct_volume": 0.0274706827,
+      "pct_horas": 0.0195644333,
+      "fora_sla": 1,
+      "linhas_validas": 45,
+      "pct_fora_sla": 2.2222222222
+    },
+    {
+      "Anomalia": "ZCLTAPDEF",
+      "volume": 23428,
+      "horas": 1652.9755555556,
+      "min_unit": 4.2333333333,
+      "pct_volume": 14.3018478613,
+      "pct_horas": 22.4970643899,
+      "fora_sla": 1223,
+      "linhas_validas": 23252,
+      "pct_fora_sla": 5.2597626011
+    },
+    {
+      "Anomalia": "ZCLTAPTL33",
+      "volume": 1244,
+      "horas": 87.7711111111,
+      "min_unit": 4.2333333333,
+      "pct_volume": 0.7594117611,
+      "pct_horas": 1.194568384,
+      "fora_sla": 48,
+      "linhas_validas": 1240,
+      "pct_fora_sla": 3.8709677419
+    },
+    {
+      "Anomalia": "ZCSAZONAL",
+      "volume": 4,
+      "horas": 0.1277777778,
+      "min_unit": 1.9166666667,
+      "pct_volume": 0.0024418385,
+      "pct_horas": 0.0017390607,
+      "fora_sla": 0,
+      "linhas_validas": 4,
+      "pct_fora_sla": 0.0
+    },
+    {
+      "Anomalia": "ZCSDABER",
+      "volume": 7,
+      "horas": 0.2236111111,
+      "min_unit": 1.9166666667,
+      "pct_volume": 0.0042732173,
+      "pct_horas": 0.0030433563,
+      "fora_sla": 0,
+      "linhas_validas": 7,
+      "pct_fora_sla": 0.0
+    },
+    {
+      "Anomalia": "ZFDC_CDC11",
+      "volume": 19,
+      "horas": 0.6069444444,
+      "min_unit": 1.9166666667,
+      "pct_volume": 0.0115987327,
+      "pct_horas": 0.0082605385,
+      "fora_sla": 2,
+      "linhas_validas": 19,
+      "pct_fora_sla": 10.5263157895
+    },
+    {
+      "Anomalia": "ZFML_X_MF",
+      "volume": 58,
+      "horas": 5.9611111111,
+      "min_unit": 6.1666666667,
+      "pct_volume": 0.0354066577,
+      "pct_horas": 0.0811309641,
+      "fora_sla": 12,
+      "linhas_validas": 57,
+      "pct_fora_sla": 21.0526315789
+    },
+    {
+      "Anomalia": "ZFVALALTO",
+      "volume": 204,
+      "horas": 6.5166666667,
+      "min_unit": 1.9166666667,
+      "pct_volume": 0.1245337615,
+      "pct_horas": 0.0886920978,
+      "fora_sla": 62,
+      "linhas_validas": 201,
+      "pct_fora_sla": 30.8457711443
+    }
+  ],
+  "VAR_horas_totais_com_massivo_1x_por_lote": 1644.2553,
+  "VAR_qtd_lotes_massivos": 2277
+}
