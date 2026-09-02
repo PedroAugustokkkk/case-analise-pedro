@@ -47,6 +47,8 @@ def _senha_configurada() -> str | None:
     try:
         for chave in ("senha", "password"):
             if chave in st.secrets:
+                # O strip aqui e o do lado digitado se espelham: senha colada
+                # de um e-mail costuma vir com espaço ou quebra de linha grudada.
                 valor = str(st.secrets[chave]).strip()
                 if valor:
                     return valor
@@ -56,15 +58,32 @@ def _senha_configurada() -> str | None:
 
 
 def _verificar() -> None:
-    """Callback do campo de senha. Compara em tempo constante e limpa o campo."""
+    """
+    Verifica a senha digitada. É chamada tanto pelo Enter no campo quanto pelo
+    botão Entrar.
+
+    Os dois primeiros ifs existem por causa de um detalhe do Streamlit: quando o
+    usuário digita e clica no botão, o `on_change` do campo dispara ANTES do
+    `on_click` do botão, na mesma execução. Sem as guardas, a primeira chamada
+    autenticava e limpava o campo, e a segunda relia o campo agora vazio e
+    marcava "senha incorreta" por cima do sucesso. Quem apertava Enter entrava;
+    quem clicava no botão não.
+    """
+    if st.session_state.get(CHAVE_SESSAO, False):
+        return  # já autenticado nesta execução: nada a refazer
+    digitada = st.session_state.get(CHAVE_CAMPO, "").strip()
+    if not digitada:
+        return  # campo vazio não é tentativa, então não marca erro
+
     esperada = _senha_configurada()
-    digitada = st.session_state.get(CHAVE_CAMPO, "")
-    if esperada and hmac.compare_digest(digitada, esperada):
-        st.session_state[CHAVE_SESSAO] = True
-        st.session_state[CHAVE_ERRO] = False
-    else:
-        st.session_state[CHAVE_SESSAO] = False
-        st.session_state[CHAVE_ERRO] = True
+    # Comparação em bytes: `compare_digest` recusa str com caractere fora do
+    # ASCII, e uma senha com acento levantaria exceção em vez de simplesmente
+    # não bater. O tempo constante é preservado.
+    ok = bool(esperada) and hmac.compare_digest(
+        digitada.encode("utf-8"), esperada.encode("utf-8")
+    )
+    st.session_state[CHAVE_SESSAO] = ok
+    st.session_state[CHAVE_ERRO] = not ok
     # A senha digitada não fica guardada na sessão depois da verificação.
     st.session_state[CHAVE_CAMPO] = ""
 
@@ -127,7 +146,7 @@ def exigir_senha() -> None:
         type="password",
         key=CHAVE_CAMPO,
         on_change=_verificar,
-        placeholder="Digite a senha e pressione Enter",
+        placeholder="Digite a senha",
     )
     st.button("Entrar", on_click=_verificar, type="primary")
 
