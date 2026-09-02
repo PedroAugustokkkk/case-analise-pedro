@@ -145,6 +145,50 @@ def kpi(rotulo: str, valor: str, texto: str, estilo: str = "") -> None:
 
 
 # ==============================================================================
+# ARQUIVOS PARA DOWNLOAD
+# ==============================================================================
+# Os bytes vêm dos artefatos já versionados no repositório, lidos em tempo de
+# execução. Nada é gerado no servidor: montar o .docx ou o .xlsx a cada partida
+# a frio custaria caro na camada gratuita, e o resultado seria o mesmo arquivo.
+#
+# O caminho sai de core.RAIZ (a pasta do módulo), e não do diretório de trabalho
+# do processo, porque a hospedagem inicia o app de outro lugar.
+
+MIME_DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+MIME_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+MIME_PY = "text/x-python"
+MIME_TXT = "text/plain"
+
+
+@st.cache_data(show_spinner=False)
+def ler_arquivo(nome: str) -> bytes | None:
+    """
+    Lê um artefato do repositório. Em cache para não reler do disco a cada
+    interação: o Excel de resultado tem 13 MB e o app re-executa o script
+    inteiro a cada clique.
+    """
+    caminho = core.RAIZ / nome
+    if not caminho.exists():
+        return None
+    return caminho.read_bytes()
+
+
+def botao_download(nome: str, rotulo: str, descricao: str, mime: str, chave: str) -> None:
+    """Botão de download com uma linha explicando o que é o arquivo."""
+    dados = ler_arquivo(nome)
+    if dados is None:
+        st.caption(f"`{nome}` não está disponível neste ambiente.")
+        return
+    tamanho = len(dados) / 1024
+    medida = f"{num(tamanho / 1024, 1)} MB" if tamanho >= 1024 else f"{num(tamanho)} KB"
+    st.download_button(
+        rotulo, data=dados, file_name=nome, mime=mime, key=chave,
+        width="stretch", type="secondary",
+    )
+    st.caption(f"{descricao} · {nome} · {medida}")
+
+
+# ==============================================================================
 # CARREGAMENTO (cache: a análise completa leva ~9s e não pode rodar a cada clique)
 # ==============================================================================
 
@@ -724,6 +768,20 @@ with aba_diag:
         "<b>Usar só o ranking unitário levaria a priorizar a anomalia errada</b> — por isso os três "
         "aparecem juntos."
     )
+
+    st.markdown("###### Conferir os números por conta própria")
+    col_dl, col_txt = st.columns([1, 2.2])
+    with col_dl:
+        botao_download(
+            "resultado_analise.xlsx", "Baixar a base enriquecida (Excel)",
+            "Arquivo", MIME_XLSX, "dl_xlsx_diag",
+        )
+    with col_txt:
+        st.caption(
+            "Traz as 163.811 linhas com as colunas calculadas (dias até o tratamento, "
+            "flags de SLA e de consistência, tamanho do lote, esforço nos dois cenários) "
+            "e oito abas de resumo. Todo número deste painel pode ser refeito a partir dele."
+        )
 
     with st.expander("Ver o ranking completo das anomalias"):
         st.dataframe(
@@ -1318,6 +1376,50 @@ documento pode ser retido por várias regras diferentes, e cada retenção é tr
     st.caption(
         f"Exibindo 200 de {num(TOTAL)} linhas. A base completa, com todas as colunas e as abas de "
         "resumo, está em `resultado_analise.xlsx`."
+    )
+
+st.divider()
+st.header("Materiais para download")
+st.markdown(
+    "Os quatro arquivos abaixo são os mesmos que sustentam este painel. "
+    "Todos os números saem da planilha original, processada pelo módulo de análise."
+)
+
+col_d1, col_d2, col_d3, col_d4 = st.columns(4)
+with col_d1:
+    botao_download(
+        "DOCUMENTO_ANALISE.docx", "Análise em Word",
+        "Contexto, diagnóstico, achados, recomendações e racional analítico, em texto",
+        MIME_DOCX, "dl_docx",
+    )
+with col_d2:
+    botao_download(
+        "resultado_analise.xlsx", "Base enriquecida em Excel",
+        "163.811 linhas com as colunas calculadas e oito abas de resumo",
+        MIME_XLSX, "dl_xlsx",
+    )
+with col_d3:
+    botao_download(
+        "Case_Processo_Seletivo.xlsx", "Planilha original",
+        "A fonte, sem alteração: Base de Dados, Premissas e Expectativa",
+        MIME_XLSX, "dl_fonte",
+    )
+with col_d4:
+    botao_download(
+        "analise_core.py", "Módulo de análise",
+        "O núcleo com toda a regra de cálculo e as decisões [D1] a [D7] documentadas",
+        MIME_PY, "dl_core",
+    )
+
+with st.expander("Também disponível: o log da execução com as validações"):
+    st.markdown(
+        "Saída completa do processamento, do inventário das colunas ao painel final. "
+        "Inclui as checagens de integridade: contagem de linhas antes e depois da junção, "
+        "linhas sem tempo médio, chaves duplicadas e datas não convertidas."
+    )
+    botao_download(
+        "saida_execucao.txt", "Baixar o log da execução",
+        "Auditoria do processamento", MIME_TXT, "dl_log",
     )
 
 st.divider()
