@@ -1,0 +1,296 @@
+
+================================================================================
+CASE DE PROCESSO SELETIVO — ANÁLISE DE ANOMALIAS DE FATURAMENTO
+================================================================================
+
+================================================================================
+ETAPA 0 — INSPEÇÃO DA PLANILHA
+================================================================================
+Arquivo    : Case_Processo_Seletivo.xlsx
+Abas       : ["'Expectativa'", "'Base de Dados'", "'Premissas e Informações'"]
+
+--------------------------------------------------------------------------------
+Aba 'Expectativa' — conteúdo integral (verificação de formato)
+--------------------------------------------------------------------------------
+  Desafio
+  Com base na base de dados disponibilizados, o candidato deverá:
+  1. Desenvolver um dashboard gerencial contendo os principais indicadores de desempenho (KPIs) que auxiliem a gestão no monitoramento da operação e na tomada de decisão.
+  2. Realizar uma análise crítica dos dados, identificando padrões, tendências, desvios, oportunidades de melhoria e possíveis riscos observados.
+  3. Apresentar recomendações objetivas, fundamentadas nos dados analisados, indicando ações que poderiam contribuir para melhoria dos resultados do negócio.
+  4. Demonstrar o racional analítico utilizado, justificando a escolha dos indicadores, visualizações e conclusões apresentadas.
+  Apresentação
+  Tempo máximo para apresentação: 10 minutos.
+  O candidato deverá apresentar:
+  Os KPIs selecionados e sua relevância para o negócio;
+  Os principais insights identificados;
+  As conclusões obtidas a partir dos dados;
+  As recomendações propostas para a gestão.
+  Observação: Será valorizada a capacidade de traduzir dados em informações acionáveis para o negócio, indo além da simples construção de gráficos e indicadores. O foco da avaliação está em: 
+1. Produzir insights relevantes; 
+2. Qualidade das recomendações apresentadas;
+3. Qualidade na apresentalção dos dados;
+
+  >> LEITURA: a aba traz o ENUNCIADO do desafio (dashboard de KPIs,
+     análise crítica, recomendações e apresentação de 10 min). Não há
+     cabeçalho, layout ou convenção de cálculo a espelhar — logo, o
+     formato de saída segue os requisitos do enunciado. [D6]
+
+--------------------------------------------------------------------------------
+Aba 'Base de Dados' — estrutura
+--------------------------------------------------------------------------------
+Dimensões  : 163.811 linhas x 8 colunas
+
+Colunas (nome exato via repr, dtype, nulos, cardinalidade):
+  [0] 'Documento'                dtype=int64      nulos=      0 distintos=  112.282
+  [1] 'Anomalia'                 dtype=str        nulos=      0 distintos=       32
+  [2] 'Data da Anomalia'         dtype=str        nulos=      0 distintos=      120
+  [3] 'Data de Tratamento'       dtype=str        nulos=      0 distintos=      119
+  [4] 'Tipo de Tratamento'       dtype=str        nulos=      0 distintos=        2
+  [5] 'Tipo de Liberação'        dtype=str        nulos=      0 distintos=        2
+  [6] 'Origem'                   dtype=str        nulos=      0 distintos=        3
+  [7] 'Colaborador(a)'           dtype=str        nulos=      0 distintos=        8
+
+  >> Todas as colunas obrigatórias foram encontradas com o nome exato.
+
+Primeiras 5 linhas:
+   Documento  Anomalia Data da Anomalia Data de Tratamento Tipo de Tratamento Tipo de Liberação               Origem Colaborador(a)
+217750304505 ZFML_X_MF       2026-02-21         2026-02-21       Com correção           MASSIVO           Backoffice         NAYARA
+217750304505 ZFML_X_MF       2026-02-20         2026-02-21       Sem Correção           MASSIVO           Backoffice         NAYARA
+217500032003 ZFML_X_MF       2026-04-23         2026-04-23       Sem Correção            MANUAL           Backoffice         NAYARA
+216650101500 ZFML_X_MF       2026-06-30         2026-06-30       Com correção            MANUAL           Backoffice        JESSICA
+215100350503 ZCDFNPARC       2026-05-30         2026-05-30       Sem Correção            MANUAL Clientes Telemedidos        ALFREDO
+
+Distribuição das colunas categóricas:
+  'Tipo de Tratamento': Sem Correção=81.942, Com correção=81.869
+  'Tipo de Liberação': MASSIVO=132.492, MANUAL=31.319
+  'Origem': Backoffice=112.519, Campo=41.402, Clientes Telemedidos=9.890
+  'Colaborador(a)': ANA=63.278, ALFREDO=36.725, JOSE=25.436, MARTA=11.799, NAYARA=7.313, CARLA=7.261, JESSICA=6.388, ANDREA=5.611
+
+--------------------------------------------------------------------------------
+Aba 'Premissas e Informações' — estrutura (blocos lado a lado)
+--------------------------------------------------------------------------------
+Dimensões brutas: 46 linhas x 9 colunas
+Blocos identificados na primeira linha preenchida:
+  col1='Tempo Médio de Tratamento das Anomalias' | col4='SLA e Saturação' | col7='Dados Complementares'
+  col1='Anomalia' | col2='Tempo' | col4='Prazo esperado para  tratamento as anomalias' | col5='2 dias' | col7='Anomalia' | col8='Tipo de retenção aplicada para impedir a emissão de faturamento com potencial inconsistência.'
+
+--------------------------------------------------------------------------------
+Etapa 0b — Extração da tabela de Tempo Médio de Tratamento
+--------------------------------------------------------------------------------
+Cabeçalho localizado na linha 3 da planilha, colunas 1 e 2.
+Anomalias com tempo médio cadastrado: 43
+Tempo médio — mín: 33s | máx: 370s | mediana: 115s
+  >> Sem chaves duplicadas na tabela de tempos (merge não vai multiplicar linhas).
+
+================================================================================
+ETAPA 1 — TEMPO DE TRATAMENTO E FLAG 'DENTRO DO SLA'
+================================================================================
+'Data da Anomalia': nulos antes=0 | após conversão=0 | não convertidos=0
+'Data de Tratamento': nulos antes=0 | após conversão=0 | não convertidos=0
+
+Registros sem 'Data de Tratamento' (em aberto)     : 0
+Registros sem 'Data da Anomalia'                   : 0
+Registros com tratamento ANTES da anomalia (< 0 d) : 537
+  >> [D7] Impossíveis no fluxo do processo (data invertida na origem).
+     Ficam na base com 'Dentro do SLA' nulo e SAEM do denominador do SLA.
+     Distribuição do atraso negativo: {-14: np.int64(1), -2: np.int64(536)}
+
+Data de corte da base (máxima observada): 05/08/2026
+
+Registros avaliáveis para SLA : 163.274 de 163.811
+Dentro do SLA (<= 2 dias corridos) : 153.108
+Fora do SLA                    : 10.166
+
+--------------------------------------------------------------------------------
+Sensibilidade das convenções de cálculo do SLA
+--------------------------------------------------------------------------------
+  Dias corridos, <= 2 (ADOTADO)      -> fora do SLA:   6.23%
+  Dias corridos, < 2 (mais rígido)   -> fora do SLA:  10.51%
+  Dias úteis seg-sáb, <= 2           -> fora do SLA:   3.12%
+  >> A escolha entre <=2 e <2 move o indicador; a convenção adotada é a
+     leitura literal de 'prazo esperado: 2 dias' (até 2 dias cumpre). [D2]
+
+================================================================================
+ETAPA 2 — MERGE COM OS TEMPOS MÉDIOS DE TRATAMENTO
+================================================================================
+Linhas antes do merge : 163.811
+Linhas após o merge   : 163.811
+  >> Cardinalidade preservada (validate='many_to_one').
+
+Linhas SEM tempo médio após o merge: 0
+  >> 100% das anomalias da base encontraram tempo médio. Nenhum NaN silencioso.
+
+Anomalias cadastradas na aba de Premissas mas AUSENTES da base: 11
+  ['ZCCL<15', 'ZCCOVID19', 'ZCDFLRCPI', 'ZCIMPNEG', 'ZCOSB', 'ZCOSB_OLT', 'ZCSDEMI', 'ZFDJUDVL', 'ZFINCONS', 'ZFOSB', 'ZFOSB_SRTC']
+  >> Cadastro mais amplo que o período analisado. Não afeta os cálculos.
+
+================================================================================
+ETAPA 3 — ESFORÇO POR CHAMADO E SATURAÇÃO DIÁRIA
+================================================================================
+Lotes massivos identificados : 2.277
+Chamados por lote massivo    : média 58.2 | mediana 7 | máximo 10.600
+
+Esforço total no cenário ADOTADO  : 1.644,3 horas
+Esforço total no cenário INGÊNUO  : 7.347,5 horas
+  >> [D4] Cobrar o tempo cheio de cada chamado massivo inflaria o esforço
+     em 4.5x e tornaria a leitura de saturação inutilizável.
+
+--------------------------------------------------------------------------------
+Horas por Colaborador(a) x dia — flag 'Estourou Saturação'
+--------------------------------------------------------------------------------
+Limite de saturação: 7 horas/dia
+
+Pares (colaborador, dia) analisados : 697
+Dias com estouro de saturação       : 33 (4.7%)
+  (no cenário ingênuo seriam        : 157 — 22.5% — evidência de [D4])
+
+Resumo por colaborador(a):
+Colaborador(a)  Dias Trabalhados  Chamados Tratados  Horas Totais  Horas/Dia (média)  Horas/Dia (máximo)  Dias com Estouro  % Dias com Estouro
+           ANA                90              63278        517.41               5.75               91.03                12               13.33
+       ALFREDO                90              36725        210.83               2.34               17.39                 6                6.67
+          JOSE                89              25436        187.65               2.11               28.49                 8                8.99
+        NAYARA               111               7313        176.55               1.59                7.18                 1                0.90
+         CARLA               107               7261        159.00               1.49                5.32                 0                0.00
+         MARTA                69              11799        150.06               2.17               30.40                 2                2.90
+       JESSICA               107               6388        132.06               1.23                4.50                 0                0.00
+        ANDREA                34               5611        110.70               3.26               20.17                 4               11.76
+
+Dias com carga acima de 24h (fisicamente impossíveis): 12
+  Nesses dias, 32.5% dos chamados estão marcados como MANUAL,
+  respondendo por 437,9 das horas.
+  >> INCONSISTÊNCIA A REPORTAR: volume desta ordem tratado 'manualmente'
+     em um único dia é implausível. Ou o 'Tipo de Liberação' está
+     classificado errado nesses lotes, ou o tempo médio da anomalia não
+     vale para tratamento em série. Impacta diretamente a saturação.
+
+Top 10 dias de maior carga (colaborador x dia):
+Colaborador(a)       Data  Chamados Tratados  Horas Trabalhadas  Estourou Saturação
+           ANA 25/05/2026               8225              91.03                True
+           ANA 19/02/2026               3910              41.74                True
+           ANA 20/03/2026               3078              40.77                True
+           ANA 29/05/2026               1785              35.47                True
+           ANA 27/02/2026               4189              31.89                True
+           ANA 18/06/2026               2119              30.84                True
+         MARTA 30/04/2026               1695              30.40                True
+           ANA 30/03/2026               2532              29.73                True
+          JOSE 12/06/2026                908              28.49                True
+          JOSE 16/03/2026                928              27.35                True
+
+================================================================================
+ETAPA 4 — TAXAS GERAIS
+================================================================================
+
+--------------------------------------------------------------------------------
+4.1 — Percentual de chamados fora do SLA
+--------------------------------------------------------------------------------
+Total de chamados na base                     : 163.811
+Chamados avaliáveis (denominador oficial)     : 163.274
+  (-) registros com data invertida, excluídos : 537
+  (+) anomalias em aberto mantidas [D3]       : 0
+Dentro do SLA                                 : 153.108 (93.77%)
+Fora do SLA                                   : 10.166 (6.23%)
+
+>> % FORA DO SLA = 6.23%  (sobre chamados avaliáveis)
+>> % FORA DO SLA = 6.21%  (sobre a base inteira, pior caso)
+
+Tempo de tratamento (dias corridos, apenas registros consistentes):
+  média 0.42 | mediana 0 | p90 2 | máximo 120
+  tratados no mesmo dia (0 dia): 80.99%
+
+--------------------------------------------------------------------------------
+4.2 — Percentual de tratamentos manuais vs massivos
+--------------------------------------------------------------------------------
+Tipo de Liberação  Chamados  % dos Chamados  Horas Atribuídas  % do Esforço
+          MASSIVO    132492           80.88            103.71          6.31
+           MANUAL     31319           19.12           1540.54         93.69
+
+>> Leitura: o massivo domina o VOLUME, mas o manual domina o ESFORÇO —
+   é onde a automação tem retorno.
+
+--------------------------------------------------------------------------------
+4.3 — Distribuição por 'Tipo de Tratamento' e 'Origem' (contexto)
+--------------------------------------------------------------------------------
+
+Por 'Tipo de Tratamento':
+Tipo de Tratamento  Chamados  Horas  % Chamados  % Fora do SLA
+      Com Correção     81869 826.82       49.98           6.11
+      Sem Correção     81942 817.44       50.02           6.34
+
+Por 'Origem':
+              Origem  Chamados   Horas  % Chamados  % Fora do SLA
+          Backoffice    112519 1343.63       68.69           7.42
+               Campo     41402  145.30       25.27           2.49
+Clientes Telemedidos      9890  155.32        6.04           8.38
+
+================================================================================
+4.4 — TOP 3 ANOMALIAS MAIS OFENSORAS
+================================================================================
+A) MAIOR VOLUME (número de chamados):
+ Anomalia  Chamados  % do Volume  Horas Totais  % do Esforço  Tempo Médio Unitário (min)  % Fora do SLA
+ZCDFNPARC     44208        26.99        219.34         13.34                        3.30           2.21
+ ZCAJALTO     37635        22.97        287.56         17.49                        1.92           0.61
+ MANUAL01     27214        16.61         10.67          0.65                        1.92          19.93
+
+B) MAIOR TEMPO GASTO — TOTAL AGREGADO (horas de operação consumidas):
+ Anomalia  Chamados  % do Volume  Horas Totais  % do Esforço  Tempo Médio Unitário (min)  % Fora do SLA
+ZCLTAPDEF     23428        14.30        542.57         33.00                        4.23           5.22
+ ZCAJALTO     37635        22.97        287.56         17.49                        1.92           0.61
+ MANUAL03      3476         2.12        231.14         14.06                        4.23           4.89
+
+C) MAIOR TEMPO GASTO — MÉDIO UNITÁRIO (custo por ocorrência):
+ Anomalia  Chamados  % do Volume  Horas Totais  % do Esforço  Tempo Médio Unitário (min)  % Fora do SLA
+ZFML_X_MF        58         0.04          4.93          0.30                        6.17          20.69
+ MANUAL02        28         0.02          2.82          0.17                        6.05           25.0
+ ZCDEVEXC        99         0.06          9.93          0.60                        6.02           9.09
+
+>> [D5] Os rankings B e C respondem perguntas diferentes: B aponta onde a
+   operação queima horas (prioridade de automação); C aponta a anomalia
+   individualmente mais cara (prioridade de simplificação do procedimento).
+
+================================================================================
+ETAPA 5 — EXPORTAÇÃO DOS RESULTADOS
+================================================================================
+Arquivo gerado: resultado_analise.xlsx
+Abas: Premissas e Decisões | Base Enriquecida | Saturação por Dia | Resumo Colaborador |
+      Manual vs Massivo | Ranking Anomalias | Top3 Volume | Top3 Horas Totais | Top3 Tempo Unitário
+Linhas na base enriquecida: 163.811
+
+================================================================================
+PAINEL FINAL — INDICADORES PRINCIPAIS
+================================================================================
+  Período analisado                          06/01/2026 a 05/08/2026
+  Chamados (linhas da base)                  163.811
+  Documentos distintos                       112.282
+  Anomalias distintas                        32
+  Colaboradores                              8
+
+  % fora do SLA (> 2 dias corridos)          6.23%
+  Chamados fora do SLA                       10.166
+  Tempo médio de tratamento                  0.41 dias
+
+  % tratamentos MASSIVOS (volume)            80.88%
+  % tratamentos MANUAIS (volume)             19.12%
+  Esforço total estimado                     1644h 15min (1.644 h)
+
+  Dias-colaborador acima de 7h               33 (4.7%)
+  Carga média por colaborador/dia            2h 22min
+  Pico de carga em um único dia              91h 02min
+
+  TOP 3 POR VOLUME:
+    - ZCDFNPARC       44.208 chamados (27.0% do volume) | fora do SLA: 2.2%
+    - ZCAJALTO        37.635 chamados (23.0% do volume) | fora do SLA: 0.6%
+    - MANUAL01        27.214 chamados (16.6% do volume) | fora do SLA: 19.9%
+
+  TOP 3 POR TEMPO TOTAL GASTO:
+    - ZCLTAPDEF        542,6 h (33.0% do esforço)
+    - ZCAJALTO         287,6 h (17.5% do esforço)
+    - MANUAL03         231,1 h (14.1% do esforço)
+
+  TOP 3 POR TEMPO MÉDIO UNITÁRIO:
+    - ZFML_X_MF      6.17 min por chamado
+    - MANUAL02       6.05 min por chamado
+    - ZCDEVEXC       6.02 min por chamado
+
+================================================================================
+FIM DA EXECUÇÃO
+================================================================================

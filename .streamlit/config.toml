@@ -1,0 +1,15 @@
+# Tema do dashboard. Versionado de propósito: define a aparência do app
+# também na hospedagem, onde não há como passar parâmetros de linha de comando.
+[theme]
+base = "light"
+primaryColor = "#1c4b82"
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#f6f8fa"
+textColor = "#1c1f24"
+
+[server]
+# Não coletar estatísticas de uso do navegador do visitante.
+enableStaticServing = false
+
+[browser]
+gatherUsageStats = false

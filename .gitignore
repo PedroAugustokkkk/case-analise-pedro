@@ -1,0 +1,27 @@
+# --- Segredos: NUNCA versionar -----------------------------------------------
+.streamlit/secrets.toml
+*.env
+.env
+
+# --- Python -------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.Python
+build/
+dist/
+
+# --- Ambientes virtuais -------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+
+# --- Node (usado só para gerar o .docx) ---------------------------------------
+node_modules/
+
+# --- Artefatos temporários ----------------------------------------------------
+*.log
+.ipynb_checkpoints/
+.DS_Store
+Thumbs.db

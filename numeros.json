@@ -1,0 +1,321 @@
+{
+ "total": 163811,
+ "documentos": 112282,
+ "anomalias": 32,
+ "colaboradores": 8,
+ "anom_por_doc": 1.4589248499314227,
+ "max_anom_doc": 19,
+ "ini": "06/01/2026",
+ "fim_anom": "30/06/2026",
+ "fim_trat": "05/08/2026",
+ "sla_dias": 2,
+ "saturacao": 7,
+ "avaliaveis": 163274,
+ "fora": 10166,
+ "dentro": 153108,
+ "pct_fora": 6.226343447211436,
+ "mesmo_dia": 80.9914622046376,
+ "media_dias": 0.416116466798143,
+ "p90": 2.0,
+ "max_dias": 120,
+ "invertidos": 537,
+ "invertidos_pct": 0.32781681327871753,
+ "invertidos_dist": {
+  "-14": 1,
+  "-2": 536
+ },
+ "em_aberto": 0,
+ "sabados": 5342,
+ "domingos": 0,
+ "cenarios": {
+  "Dias corridos, <= 2 (ADOTADO)": 6.226343447211436,
+  "Dias corridos, < 2 (mais rígido)": 10.511777747834927,
+  "Dias úteis seg-sáb, <= 2": 3.1199088648529494
+ },
+ "manual_ch": 31319,
+ "massivo_ch": 132492,
+ "manual_vol": 19.118984683568257,
+ "massivo_vol": 80.88101531643174,
+ "manual_h": 1540.5444444444445,
+ "massivo_h": 103.71083333333333,
+ "manual_esf": 93.69253456351989,
+ "massivo_esf": 6.307465436480109,
+ "custo_manual": 2.951328799344381,
+ "custo_massivo": 0.04696623192343689,
+ "razao_custo": 62.839377963204704,
+ "horas_total": 1644.2552777777778,
+ "horas_ingenuo": 7347.516666666666,
+ "fator": 4.468598499253039,
+ "lotes": 2277,
+ "lote_max": 10600,
+ "lote_mediana": 7.0,
+ "dias_trat": 119,
+ "fte": 1.9738958916900093,
+ "pares": 697,
+ "estouros": 33,
+ "pct_estouro": 4.734576757532281,
+ "estouros_ing": 157,
+ "pct_estouro_ing": 22.525107604017215,
+ "carga_media": 2.3590463095807426,
+ "pico_h": 91.02944444444444,
+ "pico_quem": "ANA",
+ "pico_data": "25/05/2026",
+ "pico_ch": 8225,
+ "pico_manual_ch": 2047,
+ "pico_manual_h": 90.80805555555555,
+ "pico_seg_por_caso": 12.310698583292623,
+ "imp_qtd": 12,
+ "imp_pct_manual": 32.46912802419355,
+ "imp_horas_manual": 437.88083333333327,
+ "imp_horas_total": 440.76722222222213,
+ "imp_pct_pares": 1.721664275466284,
+ "merge_antes": 163811,
+ "merge_depois": 163811,
+ "merge_sem_tempo": 0,
+ "merge_nao_usadas": 11,
+ "tempos_qtd": 43,
+ "tempos_dup": 0,
+ "tempo_min": 33.0,
+ "tempo_max": 370.0,
+ "tempo_padrao_s": 115.0,
+ "tempo_padrao_qtd": 29,
+ "tempo_padrao_min": 1.9166666666666667,
+ "tempos_distintos": 11,
+ "sem_correcao": 50.022281775949104,
+ "com_correcao": 0.0,
+ "ofensora": "MANUAL01",
+ "of_vol": 16.61304796381195,
+ "of_ch": 27214,
+ "of_pct_fora": 19.934592489159993,
+ "of_pct_quebras": 53.364155026559125,
+ "of_dono": "ALFREDO",
+ "of_dono_qtd": 5355,
+ "of_dono_pct": 98.70967741935483,
+ "of_dist": {
+  "0": 19222,
+  "1": 2430,
+  "2": 136,
+  "3": 3241,
+  "4": 2166,
+  "5": 13,
+  "6": 2
+ },
+ "imp_sla_atual": 6.226343447211436,
+ "imp_sla_novo": 2.90370787755552,
+ "imp_ganho": 3.3226355696559158,
+ "imp_evitadas": 5425,
+ "alvo": "ZCLTAPDEF",
+ "alvo_h": 542.5722222222222,
+ "alvo_esf": 32.9980526476103,
+ "alvo_vol": 14.301847861254737,
+ "alvo_ch": 23428,
+ "alvo_unit": 4.233333333333333,
+ "alvo_pct_manual": 30.85197199931706,
+ "alvo_h_manual": 509.9755555555556,
+ "alvo_fte": 0.6122155528878218,
+ "alvo_pos_volume": 4,
+ "quebras": [
+  {
+   "anomalia": "MANUAL01",
+   "fora": 5425,
+   "pct_todas": 53.364155026559125,
+   "pct_dela": 19.934592489159993,
+   "acum": 53.364155026559125
+  },
+  {
+   "anomalia": "ZCLTAPDEF",
+   "fora": 1223,
+   "pct_todas": 12.03029706866024,
+   "pct_dela": 5.220249274372546,
+   "acum": 65.39445209521936
+  },
+  {
+   "anomalia": "ZC113DIFNG",
+   "fora": 1211,
+   "pct_todas": 11.912256541412551,
+   "pct_dela": 7.250628667225483,
+   "acum": 77.30670863663191
+  },
+  {
+   "anomalia": "ZCDFNPARC",
+   "fora": 976,
+   "pct_todas": 9.600629549478654,
+   "pct_dela": 2.2077452044878756,
+   "acum": 86.90733818611056
+  },
+  {
+   "anomalia": "MANUAL05",
+   "fora": 575,
+   "pct_todas": 5.656108597285068,
+   "pct_dela": 14.694607717863532,
+   "acum": 92.56344678339563
+  }
+ ],
+ "top_volume": [
+  {
+   "a": "ZCDFNPARC",
+   "ch": 44208,
+   "pct": 26.987198661872526,
+   "fora": 2.2077452044878756
+  },
+  {
+   "a": "ZCAJALTO",
+   "ch": 37635,
+   "pct": 22.974647612187216,
+   "fora": 0.6137903547229973
+  },
+  {
+   "a": "MANUAL01",
+   "ch": 27214,
+   "pct": 16.61304796381195,
+   "fora": 19.934592489159993
+  }
+ ],
+ "top_horas": [
+  {
+   "a": "ZCLTAPDEF",
+   "h": 542.5722222222222,
+   "pct": 32.9980526476103,
+   "manual": 30.85197199931706
+  },
+  {
+   "a": "ZCAJALTO",
+   "h": 287.56388888888887,
+   "pct": 17.48900506967102,
+   "manual": 23.098179885744653
+  },
+  {
+   "a": "MANUAL03",
+   "h": 231.14,
+   "pct": 14.057427889931256,
+   "manual": 92.83659378596087
+  }
+ ],
+ "top_unit": [
+  {
+   "a": "ZFML_X_MF",
+   "min": 6.166666666666667,
+   "ch": 58
+  },
+  {
+   "a": "MANUAL02",
+   "min": 6.05,
+   "ch": 28
+  },
+  {
+   "a": "ZCDEVEXC",
+   "min": 6.016666666666667,
+   "ch": 99
+  }
+ ],
+ "perfil": [
+  {
+   "nome": "ANA",
+   "ch": 63278,
+   "h": 517.4080555555555,
+   "hdia": 5.7489783950617275,
+   "fora": 2.0022756724295965,
+   "manual": 17.048579285059578,
+   "origem": "Backoffice",
+   "fila": "ZC113DIFNG",
+   "pct_fila": 50.27624309392266
+  },
+  {
+   "nome": "ALFREDO",
+   "ch": 36725,
+   "h": 210.82916666666665,
+   "hdia": 2.342546296296296,
+   "fora": 16.860449285228047,
+   "manual": 9.339686861810756,
+   "origem": "Backoffice",
+   "fila": "MANUAL01",
+   "pct_fila": 86.48255813953489
+  },
+  {
+   "nome": "JOSE",
+   "ch": 25436,
+   "h": 187.6497222222222,
+   "hdia": 2.108423845193508,
+   "fora": 3.4282119830161975,
+   "manual": 19.205063689259315,
+   "origem": "Campo",
+   "fila": "MANUAL05",
+   "pct_fila": 65.82568807339449
+  },
+  {
+   "nome": "NAYARA",
+   "ch": 7313,
+   "h": 176.5533333333333,
+   "hdia": 1.5905705705705704,
+   "fora": 6.16709968549159,
+   "manual": 39.58703678380965,
+   "origem": "Backoffice",
+   "fila": "ZC113DIFNG",
+   "pct_fila": 28.38137472283814
+  },
+  {
+   "nome": "CARLA",
+   "ch": 7261,
+   "h": 158.99805555555554,
+   "hdia": 1.4859631360332293,
+   "fora": 4.241839966946702,
+   "manual": 36.468805949593715,
+   "origem": "Backoffice",
+   "fila": "ZC113DIFNG",
+   "pct_fila": 32.7922077922078
+  },
+  {
+   "nome": "MARTA",
+   "ch": 11799,
+   "h": 150.05916666666667,
+   "hdia": 2.1747705314009664,
+   "fora": 5.381812017967624,
+   "manual": 21.91711161962878,
+   "origem": "Backoffice",
+   "fila": "ZCLTAPDEF",
+   "pct_fila": 37.480314960629926
+  },
+  {
+   "nome": "JESSICA",
+   "ch": 6388,
+   "h": 132.06166666666667,
+   "hdia": 1.234221183800623,
+   "fora": 6.402629931120851,
+   "manual": 32.26361928616156,
+   "origem": "Backoffice",
+   "fila": "ZC113DIFNG",
+   "pct_fila": 27.628361858190708
+  },
+  {
+   "nome": "ANDREA",
+   "ch": 5611,
+   "h": 110.69611111111111,
+   "hdia": 3.255767973856209,
+   "fora": 0.5703083229370879,
+   "manual": 36.107645695954375,
+   "origem": "Backoffice",
+   "fila": "ZCAJALTO",
+   "pct_fila": 34.375
+  }
+ ],
+ "origens": [
+  {
+   "o": "Backoffice",
+   "ch": 112519,
+   "pct": 68.6883054251546,
+   "fora": 7.415069103878734
+  },
+  {
+   "o": "Campo",
+   "ch": 41402,
+   "pct": 25.274248982058587,
+   "fora": 2.4897169126542464
+  },
+  {
+   "o": "Clientes Telemedidos",
+   "ch": 9890,
+   "pct": 6.03744559278681,
+   "fora": 8.38268327547478
+  }
+ ]
+}
